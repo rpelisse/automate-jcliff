@@ -1,0 +1,47 @@
+---
+- name: "An EAP Playbook"
+  hosts: "{{ wildfly_ansible_hosts | default('localhost') }}"
+  vars:
+    - jboss: {
+        config: standalone.xml,
+        bind_addr: 127.0.0.1,
+        package_name: eap7-wildfly,
+        port_shift: 0,
+        home: '/opt/rh/eap7/root/usr/share/wildfly',
+        jvm_memory: 512m
+        }
+  roles:
+    - redhat-cop.jcliff
+  tasks:
+    - name: "Install EAP 7"
+      yum:
+        name: "{{ jboss.package_name }}"
+        state: "installed"
+
+    - name: "Created config directory for jboss-eap7"
+      file:
+        path: /etc/jboss-eap7/
+        state: directory
+        group: jboss
+        owner: jboss
+
+    - name: "Deploy configuration for jboss-eap7"
+      template:
+        src: templates/eap7-standalone.service.j2
+        dest: /usr/lib/systemd/system/eap7-standalone.service
+        group: jboss
+        owner: jboss
+
+    - name: "Deploy init script for jboss-eap7"
+      copy:
+        src: files/jboss-eap7
+        dest: /etc/init.d/jboss-eap7
+        owner: root
+        group: root
+        mode: 755
+
+    - name: "Ensure JBoss EAP 7 is running"
+      service:
+        name: 'eap7-standalone'
+        state: started
+        enabled: yes

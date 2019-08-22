@@ -1,0 +1,31 @@
+#!/bin/bash
+
+JAVA_HOME='/usr/lib/jvm/java-1.8.0'
+JBOSS_HOME='{{ jboss.home }}'
+JBOSS_CONFIG='{{ jboss.config }}'
+JBOSS_USER='jboss'
+JBOSS_PORT_SHIFT='{{ jboss.port_shift }}'
+
+JENKINS_HOME='/home/jboss/jenkins_workspace'
+BIND_ADDR='{{ jboss.bind_addr }}'
+MEMORY_JVM='{{ jboss.jvm_memory }}'
+
+JBOSS_EAP_MEMORY="-Xmx${MEMORY_JVM} -Xms${MEMORY_JVM} -XX:-UseParallelOldGC -XX:SoftRefLRUPolicyMSPerMB=10"
+JBOSS_EAP_TMPDIR='-Djava.io.tmpdir=/tmp'
+JENKINS_TMP_CLEANER='-Dhudson.plugins.tmpcleaner.TmpCleanWork.days=1'
+JENKINS_HOME_FLAG="-DHUDSON_HOME=${JENKINS_HOME} -DJENKINS_HOME=${JENKINS_HOME}"
+JENKINS_FLAGS='-Dhudson.model.Hudson.parallelLoad=true -Dhudson.model.UpdateCenter.never=true -Dhudson.model.DownloadService.never=true -Dhudson.model.Run.ArtifactList.treeCutoff=300'
+JENKINS_DEBUG='-DHUDSON_DEBUG_LEVEL=10'
+
+# Java and JBoss EAP configs
+JAVA_OPTS='-Djava.net.preferIPv4Stack=true -Dorg.jboss.resolver.warning=true -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000'
+JAVA_OPTS="$JAVA_OPTS -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true"
+JAVA_OPTS="$JAVA_OPTS -Djboss.server.default.config=${JBOSS_CONFIG}"
+JAVA_OPTS="$JAVA_OPTS -Djboss.bind.address=${BIND_ADDR} -Djboss.bind.address.management=127.0.0.1 -Djboss.bind.address.unsecure=${BIND_ADDR}"
+JAVA_OPTS="$JAVA_OPTS -Djboss.socket.binding.port-offset=${JBOSS_PORT_SHIFT}"
+
+JAVA_OPTS="${JAVA_OPTS} ${JBOSS_EAP_MEMORY} ${JBOSS_EAP_TMPDIR} ${JENKINS_TMP_CLEANER} ${JENKINS_HOME_FLAG} ${JENKINS_FLAGS} ${JENKINS_DEBUG}"
+
+# Workaround for Pull Processor jobs to work on Jenkins (ask Enrique Gonzalez for more details)
+JAVA_OPTS="${JAVA_OPTS} -Dhudson.model.DirectoryBrowserSupport.CSP= "
+export JAVA_OPTS
