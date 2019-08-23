@@ -8,7 +8,9 @@
         package_name: eap7-wildfly,
         port_shift: 0,
         home: '/opt/rh/eap7/root/usr/share/wildfly',
-        jvm_memory: 512m
+        jvm_memory: 512m,
+        management_username: admin,
+        management_password: r3dh4t
         }
   roles:
     - redhat-cop.jcliff
@@ -51,6 +53,17 @@
         group: root
         mode: 755
 
+    - name: "Deploy creds for jcliff script for jboss-eap7"
+      template:
+        src: "templates/{{ item }}.j2"
+        dest: "{{ jboss.home }}/standalone/{{ item }}"
+        owner: jboss
+        group: jboss
+        mode: 600
+      loop:
+        - mgmt-groups.properties
+        - mgmt-users.properties
+
     - name: "Ensure JBoss EAP 7 is running"
       service:
         name: 'eap7-standalone'
@@ -61,6 +74,8 @@
       jcliff:
         wfly_home: "{{ jboss.home }}"
         #rule_file: "{{ path_to_custom_rules }}"
+        management_username: "{{ jboss.management_username }}"
+        management_password: "{{ jboss.management_password }}"
         subsystems:
           - system_props:
               - name: jcliff.enabled
