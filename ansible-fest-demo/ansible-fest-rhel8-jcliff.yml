@@ -56,3 +56,12 @@
         name: 'eap7-standalone'
         state: started
         enabled: yes
+
+    - name: "Tuning Wildfly using JCliff"
+      jcliff:
+        wfly_home: "{{ jboss.home }}"
+        #rule_file: "{{ path_to_custom_rules }}"
+        subsystems:
+          - system_props:
+              - name: jcliff.enabled
+                value: true
