@@ -1,7 +1,9 @@
 ---
 - name: "An EAP Playbook"
   hosts: "{{ wildfly_ansible_hosts | default('localhost') }}"
+  gather_facts: no
   vars:
+    - ansible_distribution: Red Hat Enterprise Linux # just because this playbook does not gather facts
     - jboss: {
         config: standalone.xml,
         bind_addr: 127.0.0.1,
@@ -51,15 +53,15 @@
         dest: /etc/init.d/jboss-eap7
         owner: root
         group: root
-        mode: 755
+        mode: 0755
 
     - name: "Deploy creds for jcliff script for jboss-eap7"
       template:
         src: "templates/{{ item }}.j2"
-        dest: "{{ jboss.home }}/standalone/{{ item }}"
+        dest: "{{ jboss.home }}/standalone/configuration/{{ item }}"
         owner: jboss
         group: jboss
-        mode: 600
+        mode: 0600
       loop:
         - mgmt-groups.properties
         - mgmt-users.properties
