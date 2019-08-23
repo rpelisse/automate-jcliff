@@ -58,7 +58,7 @@
     - name: "Deploy creds for jcliff script for jboss-eap7"
       template:
         src: "templates/{{ item }}.j2"
-        dest: "{{ jboss.home }}/standalone/{{ item }}"
+        dest: "{{ jboss.home }}/standalone/configuration/{{ item }}"
         owner: jboss
         group: jboss
         mode: 600
