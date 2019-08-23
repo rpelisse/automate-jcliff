@@ -1,7 +1,9 @@
 ---
 - name: "An EAP Playbook"
   hosts: "{{ wildfly_ansible_hosts | default('localhost') }}"
+  gather_facts: no
   vars:
+    - ansible_distribution: Red Hat Enterprise Linux # just because this playbook does not gather facts
     - jboss: {
         config: standalone.xml,
         bind_addr: 127.0.0.1,
