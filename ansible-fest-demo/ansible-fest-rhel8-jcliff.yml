@@ -13,10 +13,21 @@
   roles:
     - redhat-cop.jcliff
   tasks:
+
+    # the yum: is quite slow to assert a package is already installed,
+    # this is just a workaround to speed things up
+    - name: "Test if package {{ jboss.package_name }} is already installed"
+      command: rpm -q {{ jboss.package_name }}
+      args:
+        warn: no
+      register: rpm_info
+      changed_when: rpm_info.failed
+
     - name: "Install EAP 7"
       yum:
         name: "{{ jboss.package_name }}"
         state: "installed"
+      when: rpm_info.failed
 
     - name: "Created config directory for jboss-eap7"
       file:
