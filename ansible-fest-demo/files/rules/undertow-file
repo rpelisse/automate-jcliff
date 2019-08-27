@@ -1,0 +1,17 @@
+{
+  "undertow" => {
+    "server" => {
+      "default-server" => {
+        "host" => {
+          "default-host" => {
+            "location" => {
+              "/app" => {
+                "handler" => "ansiblefest"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
