@@ -83,7 +83,7 @@
           - system_props:
               - name: jcliff.enabled
                 value: true
-        notify: "Restart EAP7 Server"
+      notify: "Restart EAP7 Server"
 
   handlers:
     - name: "Restart EAP7 Server"
