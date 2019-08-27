@@ -73,6 +73,10 @@
         state: restarted
         enabled: yes
 
+	- name: "Wait for EAP7 to be up"
+      wait_for:
+	    timeout: 600
+
     - name: "Tuning Wildfly using JCliff"
       jcliff:
         wfly_home: "{{ jboss.home }}"
