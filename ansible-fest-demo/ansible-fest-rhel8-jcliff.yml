@@ -9,6 +9,7 @@
         bind_addr: 127.0.0.1,
         package_name: eap7-wildfly,
         port_shift: 0,
+        service_name: 'eap7-standalone',
         home: '/opt/rh/eap7/root/usr/share/wildfly',
         jvm_memory: 512m,
         management_username: admin,
@@ -68,8 +69,8 @@
 
     - name: "Ensure JBoss EAP 7 is running"
       service:
-        name: 'eap7-standalone'
-        state: started
+        name: "{{ jboss.service_name }}"
+        state: restarted
         enabled: yes
 
     - name: "Tuning Wildfly using JCliff"
@@ -82,3 +83,10 @@
           - system_props:
               - name: jcliff.enabled
                 value: true
+      notify: "Restart EAP7 Server"
+
+  handlers:
+    - name: "Restart EAP7 Server"
+      service:
+        name: "{{ jboss.service_name }}"
+        state: restarted
