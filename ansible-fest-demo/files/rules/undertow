@@ -1,5 +1,10 @@
 {
   "undertow" => {
+    "configuration" => {
+      "handler" => {
+        "file" => { "ansiblefest" => { "path" => "/var/www/html/app" } }
+      }
+    },
     "server" => {
       "default-server" => {
         "host" => {

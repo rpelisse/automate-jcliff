@@ -14,8 +14,8 @@
         jvm_memory: 512m,
         management_username: admin,
         management_password: r3dh4t,
-        time2boot: 100
-        }
+        time2boot: "{{ eap7_time_to_boot | default('30') }}"
+      }
     - path_to_custom_rules: /work/ansible-fest-demo/files/rules/
     - app: {
         folder: /var/www/html/app
