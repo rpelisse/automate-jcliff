@@ -32,6 +32,7 @@
         warn: no
       register: rpm_info
       changed_when: rpm_info.failed
+      ignore_errors: true
 
     - name: "Install EAP 7"
       yum:
@@ -86,6 +87,8 @@
       file:
         path: "{{ app.folder }}"
         state: directory
+        group: jboss
+        owner: jboss
 
     - name: "Tuning Wildfly using JCliff"
       jcliff:
