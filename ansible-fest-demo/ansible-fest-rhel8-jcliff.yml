@@ -15,7 +15,7 @@
         management_password: r3dh4t,
         time2boot: "{{ eap7_time_to_boot | default('30') }}"
       }
-    - path_to_custom_rules: /work/ansible-fest-demo/files/rules/
+    - path_to_custom_rules: "{{ playbook_dir }}/files/rules/"
     - app: {
         folder: /var/www/html/app
     }
