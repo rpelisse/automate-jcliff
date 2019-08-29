@@ -7,11 +7,10 @@
     - jboss: {
         config: standalone.xml,
         bind_addr: "{{ ansible_default_ipv4.address | default('127.0.0.1') }}",
+        port: 80,
         package_name: eap7-wildfly,
-        port_shift: 0,
         service_name: 'eap7-standalone',
         home: '/opt/rh/eap7/root/usr/share/wildfly',
-        jvm_memory: 512m,
         management_username: admin,
         management_password: r3dh4t,
         time2boot: "{{ eap7_time_to_boot | default('30') }}"
@@ -107,3 +106,4 @@
       service:
         name: "{{ jboss.service_name }}"
         state: restarted
+        daemon_reload: yes

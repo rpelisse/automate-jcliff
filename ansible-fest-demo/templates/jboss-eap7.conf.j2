@@ -4,6 +4,7 @@ JAVA_HOME='/usr/lib/jvm/java-1.8.0'
 JBOSS_HOME='{{ jboss.home }}'
 JBOSS_CONFIG='{{ jboss.config }}'
 JBOSS_USER='jboss'
+JBOSS_PORT='{{ jboss.port }}'
 JBOSS_PORT_SHIFT='{{ jboss.port_shift }}'
 
 JENKINS_HOME='/home/jboss/jenkins_workspace'
@@ -21,7 +22,7 @@ JENKINS_DEBUG='-DHUDSON_DEBUG_LEVEL=10'
 JAVA_OPTS='-Djava.net.preferIPv4Stack=true -Dorg.jboss.resolver.warning=true -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000'
 JAVA_OPTS="$JAVA_OPTS -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true"
 JAVA_OPTS="$JAVA_OPTS -Djboss.server.default.config=${JBOSS_CONFIG}"
-JAVA_OPTS="$JAVA_OPTS -Djboss.bind.address=${BIND_ADDR} -Djboss.bind.address.management=127.0.0.1 -Djboss.bind.address.unsecure=${BIND_ADDR}"
+JAVA_OPTS="$JAVA_OPTS -Djboss.http.port=${JBOSS_PORT} -Djboss.bind.address=${BIND_ADDR} -Djboss.bind.address.management=127.0.0.1 -Djboss.bind.address.unsecure=${BIND_ADDR}"
 JAVA_OPTS="$JAVA_OPTS -Djboss.socket.binding.port-offset=${JBOSS_PORT_SHIFT}"
 
 JAVA_OPTS="${JAVA_OPTS} ${JBOSS_EAP_MEMORY} ${JBOSS_EAP_TMPDIR} ${JENKINS_TMP_CLEANER} ${JENKINS_HOME_FLAG} ${JENKINS_FLAGS} ${JENKINS_DEBUG}"
