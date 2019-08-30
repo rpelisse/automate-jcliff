@@ -39,14 +39,7 @@
         state: "installed"
       when: rpm_info.failed
 
-    - name: "Created config directory for jboss-eap7"
-      file:
-        path: /etc/jboss-eap7/
-        state: directory
-        group: jboss
-        owner: jboss
-
-    - name: "Deploy configuration for jboss-eap7"
+    - name: "Configure SystemD service for EAP7"
       template:
         src: templates/eap7-standalone.service.j2
         dest: /usr/lib/systemd/system/eap7-standalone.service

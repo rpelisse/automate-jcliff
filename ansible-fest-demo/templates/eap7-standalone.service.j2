@@ -14,6 +14,7 @@ Environment="WILDFLY_MODULEPATH=/opt/rh/eap7/root/usr/share/wildfly/modules"
 Environment="WILDFLY_BIND={{ jboss.bind_addr }}"
 Environment="WILDFLY_OPTS=-Djboss.http.port={{ jboss.port }}"
 Environment="JBOSS_PIDFILE=/var/opt/rh/eap7/run/wildfly/eap7-standalone.pid"
+
 EnvironmentFile=-/opt/rh/eap7/service-environment
 User=root
 Group=root
