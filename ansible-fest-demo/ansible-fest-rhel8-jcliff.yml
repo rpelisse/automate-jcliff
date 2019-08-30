@@ -13,7 +13,7 @@
         home: '/opt/rh/eap7/root/usr/share/wildfly',
         management_username: admin,
         management_password: r3dh4t,
-        time2boot: "{{ eap7_time_to_boot | default('30') }}"
+        time2boot: "{{ eap7_time_to_boot | default('10') }}"
       }
     - path_to_custom_rules: "{{ playbook_dir }}/files/rules/"
     - app: {
@@ -73,7 +73,9 @@
 
     - name: "Wait for EAP7 to be up"
       wait_for:
-        timeout: "{{ jboss.time2boot }}"
+        delay: "{{ jboss.time2boot }}"
+        port: "{{ jboss.port }}"
+        host: "{{ jboss.bind_addr }}"
 
     - name: "Ensure the App folder exists"
       file:
