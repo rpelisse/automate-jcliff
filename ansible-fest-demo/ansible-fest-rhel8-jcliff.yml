@@ -97,8 +97,10 @@
       notify: "Restart EAP7 Server"
 
   handlers:
+
     - name: "Restart EAP7 Server"
-      service:
+      systemd:
         name: "{{ jboss.service_name }}"
         state: restarted
+        enabled: yes
         daemon_reload: yes
